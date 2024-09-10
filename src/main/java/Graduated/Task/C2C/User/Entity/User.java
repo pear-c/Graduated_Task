@@ -37,7 +37,4 @@ public class User {
 
     @OneToMany(mappedBy = "buyer")
     List<Item> buyItem = new ArrayList<>();
-
-
-    ㄹㅈㄹ
 }
