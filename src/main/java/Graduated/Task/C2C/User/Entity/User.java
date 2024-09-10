@@ -39,4 +39,5 @@ public class User {
     List<Item> buyItem = new ArrayList<>();
 
 
+    ㄹㅈㄹ
 }
