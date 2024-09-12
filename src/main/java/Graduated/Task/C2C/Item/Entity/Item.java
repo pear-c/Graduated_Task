@@ -2,7 +2,7 @@ package Graduated.Task.C2C.Item.Entity;
 
 import Graduated.Task.C2C.BaseEntity;
 import Graduated.Task.C2C.Category.Entity.Category;
-import Graduated.Task.C2C.User.Entity.User;
+import Graduated.Task.C2C.User.Entity.Users;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -31,11 +31,11 @@ public class Item extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="seller_user_no")
-    private User seller;
+    private Users seller;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="buyer_user_no")
-    private User buyer;
+    private Users buyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryNo")
