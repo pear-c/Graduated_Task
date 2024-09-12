@@ -24,6 +24,7 @@ public abstract class BaseEntity {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
+
 //    @Enumerated(EnumType.STRING)
 //    private ObjectState objectState;
 
