@@ -1,8 +1,6 @@
-package Graduated.Task.C2C;
+package Graduated.Task.C2C.core;
 
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,17 +22,4 @@ public abstract class BaseEntity {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-
-//    @Enumerated(EnumType.STRING)
-//    private ObjectState objectState;
-
-//    public enum ObjectState {
-//        ACT,    // 활성화
-//        DEL     // 삭제, 비활성화
-//    }
-
-    //상태 변경
-//    public void changeState(ObjectState state) {
-//        this.objectState = state;
-//    }
 }
