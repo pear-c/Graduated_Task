@@ -2,6 +2,7 @@ package Graduated.Task.C2C.User.Entity;
 
 
 import Graduated.Task.C2C.Item.Entity.Item;
+import Graduated.Task.C2C.core.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Users {
+public class Users extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="userNo")

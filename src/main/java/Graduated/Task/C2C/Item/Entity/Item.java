@@ -1,8 +1,9 @@
 package Graduated.Task.C2C.Item.Entity;
 
-import Graduated.Task.C2C.BaseEntity;
 import Graduated.Task.C2C.Category.Entity.Category;
 import Graduated.Task.C2C.User.Entity.Users;
+import Graduated.Task.C2C.core.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -31,14 +32,17 @@ public class Item extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="seller_user_no")
+    @JsonIgnore //개발 과정에서만 사용 , 추후 DTO 변환과정에서는 삭제예정
     private Users seller;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="buyer_user_no")
+    @JsonIgnore//개발 과정에서만 사용 , 추후 DTO 변환과정에서는 삭제예정
     private Users buyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryNo")
+    @JsonIgnore//개발 과정에서만 사용 , 추후 DTO 변환과정에서는 삭제예정
     private Category category;
 
     public enum State{
