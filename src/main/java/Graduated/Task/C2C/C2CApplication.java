@@ -10,4 +10,7 @@ public class C2CApplication {
 		SpringApplication.run(C2CApplication.class, args);
 	}
 
+
+
+
 }
