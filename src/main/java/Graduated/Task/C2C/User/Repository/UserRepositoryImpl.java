@@ -22,7 +22,7 @@ public class UserRepositoryImpl extends Querydsl4RepositorySupport implements Us
 
 
     @Override
-    public Optional<Users> findByUserEmail(String email) {
-        return Optional.ofNullable(selectFrom(users).where(users.id.eq(email)).fetchOne());
+    public Optional<Users> findByUserId(String userId) {
+        return Optional.ofNullable(selectFrom(users).where(users.id.eq(userId)).fetchOne());
     }
 }

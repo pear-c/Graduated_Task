@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +23,13 @@ public class Category extends BaseEntity {
 
     @OneToMany(mappedBy = "category")
     private List<Item> item = new ArrayList<>();
+
+    public Category(int minPrice, int maxPrice) {
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+    }
+    public void setPrice(int minPrice,int maxPrice){
+        this.minPrice=minPrice;
+        this.maxPrice=maxPrice;
+    }
 }
