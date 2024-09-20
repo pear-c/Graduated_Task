@@ -19,10 +19,11 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
-    public void addItem(String name, int price, String userId, Long categoryId) throws Exception {
+    public void addItem(String name, int price, String userId, Long categoryNo) throws Exception {
         Users user = userRepository.findByUserId(userId).orElseThrow(()->new Exception("존재하지않는 사용자입니다"));
-        Category category = categoryRepository.findByCategoryId(categoryId).orElseThrow(()->new Exception("존재하지않는 카테고리입니다."));
+        Category category = categoryRepository.findByNo(categoryNo).orElseThrow(()->new Exception("존재하지않는 카테고리입니다."));
         Item item = new Item(name,price,user,category);
         itemRepository.save(item);
     }
+
 }

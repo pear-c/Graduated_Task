@@ -5,6 +5,4 @@ import Graduated.Task.C2C.Category.Entity.Category;
 import java.util.Optional;
 
 public interface CategoryRepositoryCustom {
-    Optional<Category> findByCategoryId(Long CategoryId);
-
 }

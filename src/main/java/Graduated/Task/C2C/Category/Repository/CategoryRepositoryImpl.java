@@ -21,8 +21,5 @@ public class CategoryRepositoryImpl extends Querydsl4RepositorySupport implement
         this.jpaQueryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
-    public Optional<Category> findByCategoryId(Long CategoryId) {
-        return Optional.ofNullable(selectFrom(category).where(category.No.eq(CategoryId)).fetchOne());
-    }
+
 }
