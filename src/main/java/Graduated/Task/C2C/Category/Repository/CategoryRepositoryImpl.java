@@ -1,11 +1,16 @@
 package Graduated.Task.C2C.Category.Repository;
 
 import Graduated.Task.C2C.Category.Entity.Category;
+import Graduated.Task.C2C.Category.Entity.QCategory;
 import Graduated.Task.C2C.core.Querydsl4RepositorySupport;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+import static Graduated.Task.C2C.Category.Entity.QCategory.category;
 
 @Repository
 @Getter
@@ -14,5 +19,10 @@ public class CategoryRepositoryImpl extends Querydsl4RepositorySupport implement
     public CategoryRepositoryImpl(EntityManager em) {
         super(Category.class);
         this.jpaQueryFactory = new JPAQueryFactory(em);
+    }
+
+    @Override
+    public Optional<Category> findByCategoryId(Long CategoryId) {
+        return Optional.ofNullable(selectFrom(category).where(category.No.eq(CategoryId)).fetchOne());
     }
 }

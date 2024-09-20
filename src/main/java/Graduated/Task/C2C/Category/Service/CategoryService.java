@@ -1,4 +1,4 @@
-package Graduated.Task.C2C.Category;
+package Graduated.Task.C2C.Category.Service;
 
 import Graduated.Task.C2C.Category.Repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,4 +10,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+
 }

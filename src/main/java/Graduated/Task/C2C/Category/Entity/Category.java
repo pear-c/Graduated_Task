@@ -23,4 +23,6 @@ public class Category extends BaseEntity {
 
     @OneToMany(mappedBy = "category")
     private List<Item> item = new ArrayList<>();
+
+
 }

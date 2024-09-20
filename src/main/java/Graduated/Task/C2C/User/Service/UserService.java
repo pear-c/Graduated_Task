@@ -21,7 +21,7 @@ public class UserService {
     private Long expireTimeMs = 100*60*60L;
     @Transactional
     public String login(String email, String password) throws Exception {
-        Users user = userRepository.findByUserEmail(email).orElseThrow(() -> new Exception("존재하지 않는 id입니다."));
+        Users user = userRepository.findByUserId(email).orElseThrow(() -> new Exception("존재하지 않는 id입니다."));
         if (Objects.equals(user.getPassword(), password)){
             throw new Exception("비밀번호가 틀렷습니다");
         }
