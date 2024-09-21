@@ -10,4 +10,5 @@ public interface ItemRepositoryCustom {
     List<Item> findBySellerItem(Long userNo);
     List<Item> findByBuyerItem(Long userNo);
 
+    List<Item> findBySoldItem(Long userNo);
 }
