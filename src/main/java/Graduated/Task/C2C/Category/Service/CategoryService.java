@@ -26,4 +26,6 @@ public class CategoryService {
         Category category = categoryRepository.findByNo(no).orElseThrow(()->new Exception("존재하지않는 카테고리입니다."));
         category.setPrice(minPrice,maxPrice);
     }
+
+
 }
