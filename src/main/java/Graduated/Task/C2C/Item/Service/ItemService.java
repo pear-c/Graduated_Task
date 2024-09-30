@@ -39,7 +39,10 @@ public class ItemService {
     public List<Item> viewCategoryItem(Long categoryNo) throws Exception {
         Category category = categoryRepository.findByNo(categoryNo).orElseThrow(()-> new Exception("존재하지않는 카테고리입니다."));
         return category.getItem();
+    }
 
+    public List<Item> AllItem(){
+        return itemRepository.findAll();
     }
 
 }
