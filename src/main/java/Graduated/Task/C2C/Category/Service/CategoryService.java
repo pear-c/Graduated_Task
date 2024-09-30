@@ -27,5 +27,4 @@ public class CategoryService {
         category.setPrice(minPrice,maxPrice);
     }
 
-
 }

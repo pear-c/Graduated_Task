@@ -6,11 +6,11 @@ import Graduated.Task.C2C.Item.Entity.Item;
 import Graduated.Task.C2C.Item.Repository.ItemRepository;
 import Graduated.Task.C2C.User.Entity.Users;
 import Graduated.Task.C2C.User.Repository.UserRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,18 +20,26 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
-    public void addItem(String name, int price, String userId, Long categoryNo) throws Exception {
+    public String addItem(String name, int price, String userId, Long categoryNo) throws Exception {
         Users user = userRepository.findByUserId(userId).orElseThrow(()->new Exception("존재하지않는 사용자입니다"));
         Category category = categoryRepository.findByNo(categoryNo).orElseThrow(()->new Exception("존재하지않는 카테고리입니다."));
         Item item = new Item(name,price,user,category);
         itemRepository.save(item);
+        return "추가완료";
     }
 
-    public void SellItem(Long userNo,Long itemNo) throws Exception {
+    public String SellItem(Long userNo, Long itemNo) throws Exception {
         Users buyer = userRepository.findById(userNo).orElseThrow(()->new Exception("존재하지않는 사용자입니다"));
         Item item = itemRepository.findById(itemNo).orElseThrow(()->new Exception("존재하지않는 아이템입니다"));
         Users seller = item.getSeller();
         item.setSold(seller,buyer);
+        return "판매완료";
+    }
+
+    public List<Item> viewCategoryItem(Long categoryNo) throws Exception {
+        Category category = categoryRepository.findByNo(categoryNo).orElseThrow(()-> new Exception("존재하지않는 카테고리입니다."));
+        return category.getItem();
+
     }
 
 }
