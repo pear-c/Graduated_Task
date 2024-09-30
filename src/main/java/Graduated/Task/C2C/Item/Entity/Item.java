@@ -1,7 +1,7 @@
 package Graduated.Task.C2C.Item.Entity;
 
 import Graduated.Task.C2C.Category.Entity.Category;
-import Graduated.Task.C2C.User.Entity.Users;
+import Graduated.Task.C2C.User.Entity.User;
 import Graduated.Task.C2C.core.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -33,19 +33,19 @@ public class Item extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="seller_user_no")
     @JsonIgnore //개발 과정에서만 사용 , 추후 DTO 변환과정에서는 삭제예정
-    private Users seller;
+    private User seller;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="buyer_user_no")
     @JsonIgnore//개발 과정에서만 사용 , 추후 DTO 변환과정에서는 삭제예정
-    private Users buyer;
+    private User buyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryNo")
     @JsonIgnore//개발 과정에서만 사용 , 추후 DTO 변환과정에서는 삭제예정
     private Category category;
 
-    public Item(String name, int price, Users seller, Category category) {
+    public Item(String name, int price, User seller, Category category) {
         this.name = name;
         this.price = price;
         this.seller = seller;
@@ -59,7 +59,7 @@ public class Item extends BaseEntity {
         sold,sale
     }
 
-    public void setSold(Users seller, Users buyer) {
+    public void setSold(User seller, User buyer) {
         this.seller = seller;
         this.buyer = buyer;
         this.type = State.sold;
