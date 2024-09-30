@@ -50,6 +50,8 @@ public class Item extends BaseEntity {
         this.price = price;
         this.seller = seller;
         this.category = category;
+        this.type = State.sale;
+        seller.getSellItem().add(this);
         category.getItem().add(this);
     }
 
@@ -57,5 +59,10 @@ public class Item extends BaseEntity {
         sold,sale
     }
 
-
+    public void setSold(Users seller, Users buyer) {
+        this.seller = seller;
+        this.buyer = buyer;
+        this.type = State.sold;
+        buyer.getBuyItem().add(this);
+    }
 }

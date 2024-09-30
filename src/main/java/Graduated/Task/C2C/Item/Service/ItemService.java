@@ -8,6 +8,7 @@ import Graduated.Task.C2C.User.Entity.Users;
 import Graduated.Task.C2C.User.Repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,13 @@ public class ItemService {
         Category category = categoryRepository.findByNo(categoryNo).orElseThrow(()->new Exception("존재하지않는 카테고리입니다."));
         Item item = new Item(name,price,user,category);
         itemRepository.save(item);
+    }
+
+    public void SellItem(Long userNo,Long itemNo) throws Exception {
+        Users buyer = userRepository.findById(userNo).orElseThrow(()->new Exception("존재하지않는 사용자입니다"));
+        Item item = itemRepository.findById(itemNo).orElseThrow(()->new Exception("존재하지않는 아이템입니다"));
+        Users seller = item.getSeller();
+        item.setSold(seller,buyer);
     }
 
 }

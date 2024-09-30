@@ -19,8 +19,6 @@ public class UserRepositoryImpl extends Querydsl4RepositorySupport implements Us
         super(Users.class);
         this.query = new JPAQueryFactory(em);
     }
-
-
     @Override
     public Optional<Users> findByUserId(String userId) {
         return Optional.ofNullable(selectFrom(users).where(users.id.eq(userId)).fetchOne());

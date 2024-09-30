@@ -13,10 +13,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.zeroturnaround.exec.ProcessExecutor;
+import org.zeroturnaround.exec.stream.LogOutputStream;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @Getter
 @Slf4j
@@ -26,37 +32,38 @@ public class JwtTokenUtil {
     @Value("${jwt.token.secret}")
     private String secretKey;
 
-    public Boolean isExpired(String token){
+    public Boolean isExpired(String token) {
         byte[] accessSecret = secretKey.getBytes(StandardCharsets.UTF_8);
         return Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(accessSecret)).parseClaimsJws(token).getBody()
                 .getExpiration().before(new Date());
     }
-    public String createToken(String email, long expireTimeMs){
+
+    public String createToken(String email, long expireTimeMs) {
         Claims claims = Jwts.claims().setSubject(email);
-        claims.put("roles","user");
+        claims.put("roles", "user");
         byte[] accessSecret = secretKey.getBytes(StandardCharsets.UTF_8);
         return Jwts.builder()
                 .setClaims(claims)//정보를 넣어줌 claims가 포함된 jwt빌더를 반환
                 .setIssuedAt(new Date(System.currentTimeMillis()))//시작시간
-                .setExpiration(new Date(System.currentTimeMillis()+expireTimeMs))//만료시간
+                .setExpiration(new Date(System.currentTimeMillis() + expireTimeMs))//만료시간
                 .signWith(Keys.hmacShaKeyFor(accessSecret))
                 .compact();
 
     }
-    public Claims getclaims(String token){
+
+    public Claims getclaims(String token) {
         byte[] parser_key = secretKey.getBytes(StandardCharsets.UTF_8);
         try {
             Claims body = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(parser_key)).parseClaimsJws(token)
                     .getBody();
             return body;
-        }
-        catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
 
     }
 
-    public String createReFreshToken(String email,Long expireTimeMs) {
+    public String createReFreshToken(String email, Long expireTimeMs) {
         byte[] accessSecret = secretKey.getBytes(StandardCharsets.UTF_8);
         Claims claims = Jwts.claims().setSubject(email);
         return Jwts.builder()
@@ -66,11 +73,13 @@ public class JwtTokenUtil {
                 .signWith(Keys.hmacShaKeyFor(accessSecret))
                 .compact();
     }
+
     public String resolveAccessToken(HttpServletRequest request) {
-        if(request.getHeader("authorization") != null )
+        if (request.getHeader("authorization") != null)
             return request.getHeader("authorization").substring(7);
         return null;
     }
+
     public boolean validateToken(String jwtToken) {
         byte[] accessSecret = secretKey.getBytes(StandardCharsets.UTF_8);
         try {
@@ -81,12 +90,24 @@ public class JwtTokenUtil {
             return false;
         }
     }
+
     public UsernamePasswordAuthenticationToken getAuthentication(String token) {
         Object no = this.getclaims(token).getSubject();
         return new UsernamePasswordAuthenticationToken(no, "", List.of(new SimpleGrantedAuthority("user")));
     }
+
     public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
-        response.setHeader("authorization", "Bearer "+ accessToken);
+        response.setHeader("authorization", "Bearer " + accessToken);
     }
 
+    public void test() throws IOException, InterruptedException, TimeoutException {
+        new ProcessExecutor().command("python", "test.py")
+                .redirectOutput(new LogOutputStream() {
+                    @Override
+                    protected void processLine(String line) {
+                        System.out.println(line);
+                    }
+                }).execute();
+
+    }
 }
