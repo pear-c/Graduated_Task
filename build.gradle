@@ -42,6 +42,7 @@ dependencies {
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.postgresql:postgresql:42.7.2'
+	implementation group: 'org.zeroturnaround', name: 'zt-exec', version: '1.12'
 }
 
 tasks.named('test') {
