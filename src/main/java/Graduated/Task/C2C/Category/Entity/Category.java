@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -18,18 +20,9 @@ public class Category extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="categoryNo")
     private Long No;
-    private int minPrice;
-    private int maxPrice;
-
     @OneToMany(mappedBy = "category")
     private List<Item> item = new ArrayList<>();
 
-    public Category(int minPrice, int maxPrice) {
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
-    }
-    public void setPrice(int minPrice,int maxPrice){
-        this.minPrice=minPrice;
-        this.maxPrice=maxPrice;
-    }
+    @OneToMany(mappedBy = "category")
+    private List<categoryPrice> categoryPrices = new ArrayList<>();
 }

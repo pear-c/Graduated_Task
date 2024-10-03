@@ -30,4 +30,9 @@ public class UserService {
         redisConfig.redisTemplate().opsForValue().set(user.getId(),reFresh_token, Duration.ofHours(3));
         return Access_token;
     }
+    @Transactional
+    public void logout(String AccessToken){
+        String subject = jwtTokenUtil.getclaims(AccessToken).getSubject();
+        redisConfig.redisTemplate().delete(subject);
+    }
 }
