@@ -38,8 +38,8 @@ public class JwtTokenUtil {
                 .getExpiration().before(new Date());
     }
 
-    public String createToken(String email, long expireTimeMs) {
-        Claims claims = Jwts.claims().setSubject(email);
+    public String createToken(String no, long expireTimeMs) {
+        Claims claims = Jwts.claims().setSubject(no);
         claims.put("roles", "user");
         byte[] accessSecret = secretKey.getBytes(StandardCharsets.UTF_8);
         return Jwts.builder()
