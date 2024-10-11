@@ -28,6 +28,8 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private State type;
 
+    private Boolean priceSimilar;
+
     private int viewCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
