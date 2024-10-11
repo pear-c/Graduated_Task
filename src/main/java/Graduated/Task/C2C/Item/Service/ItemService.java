@@ -2,6 +2,7 @@ package Graduated.Task.C2C.Item.Service;
 
 import Graduated.Task.C2C.Category.Entity.Category;
 import Graduated.Task.C2C.Category.Repository.CategoryRepository;
+import Graduated.Task.C2C.Item.Dto.ItemDto;
 import Graduated.Task.C2C.Item.Entity.Item;
 import Graduated.Task.C2C.Item.Repository.ItemRepository;
 import Graduated.Task.C2C.User.Entity.User;
@@ -39,9 +40,12 @@ public class ItemService {
         return "판매완료";
     }
 
-    public List<Item> viewCategoryItem(Long categoryNo) throws Exception {
-        Category category = categoryRepository.findById(categoryNo).orElseThrow(()-> new Exception("존재하지않는 카테고리입니다."));
-        return category.getItem();
+    public List<ItemDto> viewCategoryItem(Long categoryNo, final int startPage, final int PageSize) {
+        List<Item> categoryItem = categoryRepository.findCategoryWithItem(categoryNo, startPage, PageSize);
+        return categoryItem.stream().map(this::getItemDto).toList();
+    }
+    private ItemDto getItemDto(Item item) {
+        return new ItemDto(item.getNo(),item.getName(),item.getPrice(),item.getPriceSimilar(),item.getCreatedDate());
     }
 
     public List<Item> AllItem(){
@@ -56,5 +60,8 @@ public class ItemService {
     public List<Item> userSoldItem(Long userNo){
         return itemRepository.findBySoldItem(userNo);
     }
+
+
+
 
 }
