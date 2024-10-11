@@ -1,17 +1,21 @@
 package Graduated.Task.C2C.Item.Service;
 
 import Graduated.Task.C2C.Category.Entity.Category;
+import Graduated.Task.C2C.Category.Entity.categoryPrice;
 import Graduated.Task.C2C.Category.Repository.CategoryRepository;
+import Graduated.Task.C2C.Item.Dto.ItemDetailDto;
 import Graduated.Task.C2C.Item.Dto.ItemDto;
 import Graduated.Task.C2C.Item.Entity.Item;
 import Graduated.Task.C2C.Item.Repository.ItemRepository;
 import Graduated.Task.C2C.User.Entity.User;
 import Graduated.Task.C2C.User.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +27,10 @@ public class ItemService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public String addItem(String name, int price, String userId, Long categoryNo) throws Exception {
+    public String addItem(String name, int price, String userId, Long categoryNo,int itemState,boolean priceSimilar) throws Exception {
         User user = userRepository.findByUserId(userId).orElseThrow(()->new Exception("존재하지않는 사용자입니다"));
         Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new Exception("존재하지않는 카테고리입니다."));
-        Item item = new Item(name,price,user,category);
+        Item item = new Item(name,price,user,category,itemState,priceSimilar);
         itemRepository.save(item);
         return "추가완료";
     }
@@ -41,12 +45,28 @@ public class ItemService {
     }
 
     public List<ItemDto> viewCategoryItem(Long categoryNo, final int startPage, final int PageSize) {
-        List<Item> categoryItem = categoryRepository.findCategoryWithItem(categoryNo, startPage, PageSize);
+        List<Item> categoryItem = itemRepository.findCategoryWithItem(categoryNo, startPage, PageSize);
         return categoryItem.stream().map(this::getItemDto).toList();
+    }
+    public List<ItemDto> searchItem(String word,final int startPage, final int PageSize){
+        List<Item> searchItem = itemRepository.searchItem(word,startPage, PageSize);
+        return searchItem.stream().map(this::getItemDto).toList();
+    }
+    public ItemDetailDto itemInformation(Long itemId){
+        Item item = itemRepository.findItemWithCategory(itemId).orElseThrow(() -> new NullPointerException("존재하지 않는 아이템입니다"));
+        int state = item.getItemState();
+        categoryPrice categoryPrice = categoryRepository.findCategoryPrice(item.getCategory().getNo(), state).orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
+        int maxPrice = categoryPrice.getMaxPrice();
+        int minPrice = categoryPrice.getMinPrice();
+        String name = item.getCategory().getName();
+        return new ItemDetailDto(item.getNo(),item.getName(),item.getPrice(),name,minPrice,maxPrice,item.getItemState());
+
+
     }
     private ItemDto getItemDto(Item item) {
         return new ItemDto(item.getNo(),item.getName(),item.getPrice(),item.getPriceSimilar(),item.getCreatedDate());
     }
+
 
     public List<Item> AllItem(){
         return itemRepository.findAll();

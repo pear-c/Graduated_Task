@@ -22,6 +22,7 @@ public class Category extends BaseEntity {
     private Long No;
     @OneToMany(mappedBy = "category")
     private List<Item> item = new ArrayList<>();
+    private String name;
 
     @OneToMany(mappedBy = "category")
     private List<categoryPrice> categoryPrices = new ArrayList<>();

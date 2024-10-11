@@ -2,12 +2,14 @@ package Graduated.Task.C2C.Item.Repository;
 
 import Graduated.Task.C2C.Item.Entity.Item;
 import Graduated.Task.C2C.core.Querydsl4RepositorySupport;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static Graduated.Task.C2C.Category.Entity.QCategory.category;
 import static Graduated.Task.C2C.Item.Entity.QItem.item;
@@ -24,9 +26,19 @@ public class ItemRepositoryImpl extends Querydsl4RepositorySupport implements It
         this.jpaQueryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
-    public List<Item> findByCategoryItem(Long categoryNo) {
-        return select(item).from(category).join(category.item, item).fetchJoin().where(category.No.eq(categoryNo)).fetch();
+    public List<Item> findCategoryWithItem(Long categoryNo,final int startPage, final int PageSize) {
+        return select(item).from(category).where(category.No.eq(categoryNo)).join(category.item,item).where(item.type.eq(Item.State.sale)).orderBy(item.createdDate.desc()).fetchJoin().offset(startPage)
+                .limit(PageSize).fetch();
+    }
+    public Optional<Item> findItemWithCategory(Long itemId){
+        return Optional.ofNullable(selectFrom(item).where(item.No.eq(itemId)).join(item.category).fetchJoin().fetchOne());
+    }
+    public List<Item> searchItem(String word,final int startPage, final int PageSize){
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        if(word!=null){
+            booleanBuilder.and(item.name.like("%" + word + "%"));
+        }
+        return selectFrom(item).where(booleanBuilder,item.type.eq(Item.State.sale)).fetch();
     }
 
     @Override
@@ -41,7 +53,6 @@ public class ItemRepositoryImpl extends Querydsl4RepositorySupport implements It
 
     @Override
     public List<Item> findByBuyerItem(Long userNo) {
-        return select(item).from(user).join(user.buyItem,item).fetchJoin().where(user.no.eq(userNo)).fetch();
+        return select(item).from(user).join(user.buyItem, item).fetchJoin().where(user.no.eq(userNo)).fetch();
     }
-
 }

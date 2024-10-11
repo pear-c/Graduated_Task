@@ -12,8 +12,9 @@ public class categoryPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
-    private int price;
+    private int status;
+    private int maxPrice;
+    private int minPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="categoryNo")
