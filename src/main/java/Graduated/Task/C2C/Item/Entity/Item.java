@@ -47,7 +47,7 @@ public class Item extends BaseEntity {
     @JsonIgnore//개발 과정에서만 사용 , 추후 DTO 변환과정에서는 삭제예정
     private Category category;
 
-    public Item(String name, int price, User seller, Category category) {
+    public Item(String name, int price, Users seller, Category category) {
         this.name = name;
         this.price = price;
         this.seller = seller;
