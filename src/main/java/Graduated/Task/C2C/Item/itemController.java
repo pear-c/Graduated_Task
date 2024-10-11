@@ -56,9 +56,7 @@ public class itemController {
             return new ResponseEntity<>(errorMessage,HttpStatus.UNAUTHORIZED);}
         catch (Exception e){
             ErrorMessage errorMessage = ErrorMessage.of(500, "다시 시도해주십시오");
-            return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);}
+            return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }
