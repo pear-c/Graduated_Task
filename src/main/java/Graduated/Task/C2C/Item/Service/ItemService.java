@@ -10,7 +10,6 @@ import Graduated.Task.C2C.Item.Repository.ItemRepository;
 import Graduated.Task.C2C.User.Entity.User;
 import Graduated.Task.C2C.User.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,21 +26,33 @@ public class ItemService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public String addItem(String name, int price, String userId, Long categoryNo,int itemState,boolean priceSimilar) throws Exception {
-        User user = userRepository.findByUserId(userId).orElseThrow(()->new Exception("존재하지않는 사용자입니다"));
-        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new Exception("존재하지않는 카테고리입니다."));
+    public Long addItem(String name, int price, String userId, Long categoryNo, int itemState, boolean priceSimilar)  {
+        User user = userRepository.findByUserId(userId).orElseThrow(()->new NullPointerException("존재하지않는 사용자입니다"));
+        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new NullPointerException("존재하지않는 카테고리입니다."));
         Item item = new Item(name,price,user,category,itemState,priceSimilar);
         itemRepository.save(item);
-        return "추가완료";
+        return item.getNo();
+    }
+    @Transactional
+    public void deleteItem(Long itemId){
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new NullPointerException("존재하지않는 아이템입니다."));
+        itemRepository.delete(item);
     }
 
     @Transactional
-    public String SellItem(Long userNo, Long itemNo) throws Exception {
+    public void SellItem(Long userNo, Long itemNo) throws Exception {
         User buyer = userRepository.findById(userNo).orElseThrow(()->new Exception("존재하지않는 사용자입니다"));
         Item item = itemRepository.findById(itemNo).orElseThrow(()->new Exception("존재하지않는 아이템입니다"));
         User seller = item.getSeller();
         item.setSold(seller,buyer);
-        return "판매완료";
+    }
+
+    @Transactional
+    public void changeItem(Long itemId,String name, int price, Long categoryNo,int itemState,boolean priceSimilar)  {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new NullPointerException("존재하지않는 아이템입니다."));
+        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new NullPointerException("존재하지않는 카테고리입니다."));
+        item.changeItem(name,price,priceSimilar,itemState,category);
+        itemRepository.save(item);
     }
 
     public List<ItemDto> viewCategoryItem(Long categoryNo, final int startPage, final int PageSize) {

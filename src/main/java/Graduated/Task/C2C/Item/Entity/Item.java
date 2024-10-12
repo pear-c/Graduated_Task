@@ -28,6 +28,7 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private State type;
 
+    private String image;
     private Boolean priceSimilar;
 
     private int itemState;
@@ -50,12 +51,23 @@ public class Item extends BaseEntity {
 
     public Item(String name, int price, User seller, Category category,int itemState,boolean priceSimilar) {
         this.name = name;
+        this.image="";
         this.price = price;
         this.seller = seller;
         this.category = category;
         this.type = State.sale;
         seller.getSellItem().add(this);
         category.getItem().add(this);
+    }
+
+    public void changeItem(String name, int price, Boolean priceSimilar, int itemState, Category category) {
+        this.name = name;
+        this.image="";
+        this.price = price;
+        this.priceSimilar = priceSimilar;
+        this.itemState = itemState;
+        this.category = category;
+
     }
 
     public enum State{
