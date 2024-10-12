@@ -82,14 +82,14 @@ public class ItemService {
     public List<Item> AllItem(){
         return itemRepository.findAll();
     }
-    public List<Item> userBuyItem(Long userNo){
-        return itemRepository.findByBuyerItem(userNo);
+    public List<ItemDto> userBuyItem(String userId){
+        return itemRepository.findByBuyerItem(userId).stream().map(this::getItemDto).toList();
     }
-    public List<Item> userSellerItem(Long userNo){
-        return itemRepository.findBySellerItem(userNo);
+    public List<ItemDto> userSellerItem(String userNo){
+        return itemRepository.findBySellerItem(userNo).stream().map(this::getItemDto).toList();
     }
-    public List<Item> userSoldItem(Long userNo){
-        return itemRepository.findBySoldItem(userNo);
+    public List<ItemDto> userSoldItem(String userNo){
+        return itemRepository.findBySoldItem(userNo).stream().map(this::getItemDto).toList();
     }
 
 

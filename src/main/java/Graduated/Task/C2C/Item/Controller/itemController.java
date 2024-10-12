@@ -116,6 +116,30 @@ public class itemController {
         }
     }
 
+    @PostMapping("/userInfo/sellItems")
+    public ResponseEntity<?> sellItems(HttpServletRequest request) {
+        String accessToken = jwtTokenUtil.resolveAccessToken(request);
+        String userId = jwtTokenUtil.getclaims(accessToken).getSubject();
+        List<ItemDto> itemDtos = itemService.userSellerItem(userId);
+        Message<List<ItemDto>> message = Message.of(200, itemDtos);
+        return new ResponseEntity<>(message,HttpStatus.OK);
+    }
 
+    @PostMapping("/userInfo/buyItems")
+    public ResponseEntity<?> buyItems(HttpServletRequest request) {
+        String accessToken = jwtTokenUtil.resolveAccessToken(request);
+        String userId = jwtTokenUtil.getclaims(accessToken).getSubject();
+        List<ItemDto> itemDtos = itemService.userBuyItem(userId);
+        Message<List<ItemDto>> message = Message.of(200, itemDtos);
+        return new ResponseEntity<>(message,HttpStatus.OK);
+    }
+    @PostMapping("/userInfo/soldItems")
+    public ResponseEntity<?> soldItems(HttpServletRequest request) {
+        String accessToken = jwtTokenUtil.resolveAccessToken(request);
+        String userId = jwtTokenUtil.getclaims(accessToken).getSubject();
+        List<ItemDto> itemDtos = itemService.userSoldItem(userId);
+        Message<List<ItemDto>> message = Message.of(200, itemDtos);
+        return new ResponseEntity<>(message,HttpStatus.OK);
+    }
 
 }

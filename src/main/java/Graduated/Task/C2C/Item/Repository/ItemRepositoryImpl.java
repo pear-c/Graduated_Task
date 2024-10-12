@@ -42,17 +42,18 @@ public class ItemRepositoryImpl extends Querydsl4RepositorySupport implements It
     }
 
     @Override
-    public List<Item> findBySellerItem(Long userNo) {
-        return select(item).from(user).join(user.sellItem,item).fetchJoin().where(user.no.eq(userNo),item.type.eq(Item.State.sale)).fetch();
+    public List<Item> findBySellerItem(String userid) {
+        return select(item).from(user).join(user.sellItem,item).fetchJoin().where(user.id.eq(userid),item.type.eq(Item.State.sale)).fetch();
     }
 
     @Override
-    public List<Item> findBySoldItem(Long userNo) {
-        return select(item).from(user).join(user.sellItem,item).fetchJoin().where(user.no.eq(userNo),item.type.eq(Item.State.sold)).fetch();
+    public List<Item> findBySoldItem(String userid) {
+        return select(item).from(user).join(user.sellItem,item).fetchJoin().where(user.id.eq(userid),item.type.eq(Item.State.sold)).fetch();
     }
 
     @Override
-    public List<Item> findByBuyerItem(Long userNo) {
-        return select(item).from(user).join(user.buyItem, item).fetchJoin().where(user.no.eq(userNo)).fetch();
+    public List<Item> findByBuyerItem(String userid) {
+        return select(item).from(user).join(user.buyItem, item).fetchJoin().where(user.id.eq(userid)).fetch();
     }
+
 }

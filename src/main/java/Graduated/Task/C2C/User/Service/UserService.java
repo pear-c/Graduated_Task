@@ -2,6 +2,7 @@ package Graduated.Task.C2C.User.Service;
 
 import Graduated.Task.C2C.User.Entity.User;
 import Graduated.Task.C2C.User.Repository.UserRepository;
+import Graduated.Task.C2C.User.responseDto.userInfoDto;
 import Graduated.Task.C2C.core.JwtTokenUtil;
 import Graduated.Task.C2C.core.RedisConfig;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,11 @@ public class UserService {
         String subject = jwtTokenUtil.getclaims(AccessToken).getSubject();
         redisConfig.redisTemplate().delete(subject);
     }
+
+    public userInfoDto userinfo(String accessToken){
+        String userId = jwtTokenUtil.getclaims(accessToken).getSubject();
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다."));
+        return new userInfoDto(user.getNo(),user.getName(),user.getId(),user.getCreatedDate());
+    }
+
 }
