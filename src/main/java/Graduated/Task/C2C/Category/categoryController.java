@@ -16,12 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class categoryController {
-    private final ItemService itemService;
-    @GetMapping("/api/{categoryNo}/{page}")
-    public ResponseEntity<?> CategoryItem(@PathVariable("categoryNo") Long categoryNo, @PathVariable("page") int page ){
-        List<ItemDto> itemDtos = itemService.viewCategoryItem(categoryNo, page, 10);
-        Message<List<ItemDto>> message = Message.of(200, itemDtos);
-        return new ResponseEntity<>(message, HttpStatus.OK);
-    }
+
+
 
 }
