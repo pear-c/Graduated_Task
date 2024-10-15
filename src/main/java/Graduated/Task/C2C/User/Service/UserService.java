@@ -42,5 +42,4 @@ public class UserService {
         User user = userRepository.findByUserId(userId).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다."));
         return new userInfoDto(user.getNo(),user.getName(),user.getId(),user.getCreatedDate());
     }
-
 }

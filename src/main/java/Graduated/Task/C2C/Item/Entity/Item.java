@@ -59,7 +59,9 @@ public class Item extends BaseEntity {
         seller.getSellItem().add(this);
         category.getItem().add(this);
     }
-
+    public void plusView(){
+        this.viewCount+=1;
+    }
     public void changeItem(String name, int price, Boolean priceSimilar, int itemState, Category category) {
         this.name = name;
         this.image="";
