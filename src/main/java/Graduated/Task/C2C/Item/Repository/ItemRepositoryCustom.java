@@ -11,6 +11,7 @@ public interface ItemRepositoryCustom {
     Optional<Item> findItemWithCategory(Long itemId);
     List<Item> findBySellerItem(String userid);
     List<Item> findByBuyerItem(String userid);
-
+    List<Item> findPopularItem();
+    List<Item> findRecentItem();
     List<Item> findBySoldItem(String userid);
 }

@@ -15,7 +15,6 @@ public class categoryPrice {
     private int status;
     private int maxPrice;
     private int minPrice;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="categoryNo")
     private Category category;

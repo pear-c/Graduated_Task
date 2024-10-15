@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.zeroturnaround.exec.ProcessExecutor;
-import org.zeroturnaround.exec.stream.LogOutputStream;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -98,16 +97,5 @@ public class JwtTokenUtil {
 
     public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
         response.setHeader("authorization", "Bearer " + accessToken);
-    }
-
-    public void test() throws IOException, InterruptedException, TimeoutException {
-        new ProcessExecutor().command("python", "test.py")
-                .redirectOutput(new LogOutputStream() {
-                    @Override
-                    protected void processLine(String line) {
-                        System.out.println(line);
-                    }
-                }).execute();
-
     }
 }
