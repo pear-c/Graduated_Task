@@ -31,10 +31,10 @@ public class ItemService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public Long addItem(String name, int price, String userId, Long categoryNo, int itemState, boolean priceSimilar) throws Exception {
+    public Long addItem(String name, String image,int price, String userId, Long categoryNo, int itemState, boolean priceSimilar) throws Exception {
         User user = userRepository.findByUserId(userId).orElseThrow(()->new NullPointerException("존재하지않는 사용자입니다"));
         Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new NullPointerException("존재하지않는 카테고리입니다."));
-        Item item = new Item(name,price,user,category,itemState,priceSimilar);
+        Item item = new Item(name,image,price,user,category,itemState,priceSimilar);
         itemRepository.save(item);
         if (category.getItemCount()%20 ==0 ){
             String category_no = String.valueOf(category.getNo());
@@ -44,6 +44,7 @@ public class ItemService {
         }
         return item.getNo();
     }
+
     @Transactional
     public void deleteItem(Long itemId){
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NullPointerException("존재하지않는 아이템입니다."));
