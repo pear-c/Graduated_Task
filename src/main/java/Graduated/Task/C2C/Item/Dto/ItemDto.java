@@ -10,7 +10,6 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-
 public class ItemDto {
     private Long itemId;
 

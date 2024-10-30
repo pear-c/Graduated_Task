@@ -20,10 +20,24 @@ public class Category extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="categoryNo")
     private Long No;
+
     @OneToMany(mappedBy = "category")
     private List<Item> item = new ArrayList<>();
+
     private String name;
 
     @OneToMany(mappedBy = "category")
     private List<categoryPrice> categoryPrices = new ArrayList<>();
+
+    private int itemCount;
+
+
+    public void plusCount(){
+        this.itemCount++;
+    }
+
+    public Category(String name, int itemCount) {
+        this.name = name;
+        this.itemCount = itemCount;
+    }
 }

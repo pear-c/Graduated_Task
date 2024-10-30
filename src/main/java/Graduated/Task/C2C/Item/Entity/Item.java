@@ -9,10 +9,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@ToString
 public class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +58,8 @@ public class Item extends BaseEntity {
         this.seller = seller;
         this.category = category;
         this.type = State.sale;
+        this.itemState = itemState;
+        this.priceSimilar=priceSimilar;
         seller.getSellItem().add(this);
         category.getItem().add(this);
     }
