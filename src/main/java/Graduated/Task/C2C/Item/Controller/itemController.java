@@ -65,9 +65,9 @@ public class itemController {
         String accessToken = jwtTokenUtil.resolveAccessToken(request);
         String userId = jwtTokenUtil.getclaims(accessToken).getSubject();
         try{
-            Long itemNo = itemService.addItem(joinItemDto.getItemName(), joinItemDto.getPrice(), userId, joinItemDto.getCategoryNo(), joinItemDto.getItemState(),
+            Long itemNo = itemService.addItem(joinItemDto.getItemName(), joinItemDto.getImages(), joinItemDto.getPrice(), userId, joinItemDto.getCategoryNo(), joinItemDto.getItemState(),
                     joinItemDto.isPriceSimilar());
-            Message<itemRequestDto> message = Message.of(201,new itemRequestDto(itemNo,"상품이 성공적으로 수정되었습니다."));
+            Message<itemRequestDto> message = Message.of(201,new itemRequestDto(itemNo,"상품이 성공적으로 등록되었습니다."));
             return new ResponseEntity<>(message,HttpStatus.CREATED);
         }
         catch (NullPointerException e) {

@@ -13,9 +13,9 @@ public class ItemDetailDto {
     private int maxPrice;
     private int itemState;
 
-    public ItemDetailDto(Long itemId, String itemName, int price, String category, int minPrice, int maxPrice, int itemState) {
+    public ItemDetailDto(Long itemId, String image,String itemName, int price, String category, int minPrice, int maxPrice, int itemState) {
         this.itemId = itemId;
-        this.images = "";
+        this.images = image;
         this.itemName = itemName;
         this.price = price;
         this.category = category;
@@ -23,5 +23,6 @@ public class ItemDetailDto {
         this.maxPrice = maxPrice;
         this.itemState = itemState;
     }
+
 
 }
