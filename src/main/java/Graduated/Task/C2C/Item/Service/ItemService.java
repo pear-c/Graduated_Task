@@ -84,10 +84,10 @@ public class ItemService {
         int maxPrice = categoryPrice.getMaxPrice();
         int minPrice = categoryPrice.getMinPrice();
         String name = item.getCategory().getName();
-        return new ItemDetailDto(item.getNo(),item.getName(),item.getPrice(),name,minPrice,maxPrice,item.getItemState());
+        return new ItemDetailDto(item.getNo(),item.getImage(),item.getName(),item.getPrice(),name,minPrice,maxPrice,item.getItemState());
     }
     private ItemDto getItemDto(Item item) {
-        return new ItemDto(item.getNo(),item.getName(),item.getPrice(),item.getPriceSimilar(),item.getCreatedDate());
+        return new ItemDto(item.getNo(),item.getImage(),item.getName(),item.getPrice(),item.getPriceSimilar(),item.getCreatedDate());
     }
     public List<ItemDto> findPopularItem(){
         return itemRepository.findPopularItem().stream().map(this::getItemDto).toList();
