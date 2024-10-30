@@ -23,17 +23,14 @@ import java.util.NoSuchElementException;
 public class itemController {
     private final ItemService itemService;
     private final JwtTokenUtil jwtTokenUtil;
-    @GetMapping(value = {"/api/{categoryNo}/{page}","/api/{categoryNo}"})
-    public ResponseEntity<?> CategoryItem(@PathVariable("categoryNo") Long categoryNo, @PathVariable("page") Integer page ){
-        if(page==null) {
-            page = 1;
-        }
+    @GetMapping(value = {"/api/{categoryNo}/{page}"})
+    public ResponseEntity<?> CategoryItem(@PathVariable("categoryNo") Long categoryNo, @PathVariable("page") int page) {
         List<ItemDto> itemDtos = itemService.viewCategoryItem(categoryNo, page, 10);
         Message<List<ItemDto>> message = Message.of(200, itemDtos);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/search/{item}/{page}","/search/{item}"})
+    @GetMapping(value = {"/search/{item}/{page}"})
     public ResponseEntity<?> SearchItem(@PathVariable("item") String word,@PathVariable("page") Integer page){
         if(page==null) {
             page = 1;
@@ -63,7 +60,8 @@ public class itemController {
         }
     }
     @PostMapping("/item/create")
-    public ResponseEntity<?> createItem(joinItemDto joinItemDto, HttpServletRequest request){
+    public ResponseEntity<?> createItem(@RequestBody joinItemDto joinItemDto, HttpServletRequest request){
+        System.out.println(joinItemDto);
         String accessToken = jwtTokenUtil.resolveAccessToken(request);
         String userId = jwtTokenUtil.getclaims(accessToken).getSubject();
         try{
@@ -82,7 +80,7 @@ public class itemController {
         }
     }
     @PatchMapping("/item/patch/{itemNo}")
-    public ResponseEntity<?> changeItem(@PathVariable("itemNo") Long itemNo, joinItemDto joinItemDto,HttpServletRequest request){
+    public ResponseEntity<?> changeItem(@PathVariable("itemNo") Long itemNo, @RequestBody joinItemDto joinItemDto,HttpServletRequest request){
         try{
             itemService.changeItem(itemNo, joinItemDto.getItemName(), joinItemDto.getPrice(), joinItemDto.getCategoryNo(), joinItemDto.getItemState(),
                     joinItemDto.isPriceSimilar());

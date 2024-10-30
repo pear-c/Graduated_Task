@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -21,14 +22,15 @@ public class UserController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     @PostMapping("/login")
-    public ResponseEntity<?> login(loginDto loginDto) {
+    public ResponseEntity<?> login(@RequestBody loginDto loginDto) {
         try {
+            System.out.println(loginDto);
             String accessToken = userService.login(loginDto.getId(), loginDto.getPassword());
             TokenDto tokenDto = new TokenDto(accessToken,"성공적으로 로그인 하였습니다.");
             Message<TokenDto> message = Message.of(200, tokenDto);
             return new ResponseEntity<>(message,HttpStatus.OK);
         } catch (Exception e) {
-            ErrorMessage errorMessage = ErrorMessage.of(404, "아이디와 비밀번호를 확인해 주십시오");
+            ErrorMessage errorMessage = ErrorMessage.of(404, e.getMessage());
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }
     }

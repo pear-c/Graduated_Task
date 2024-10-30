@@ -32,4 +32,5 @@ public class CategoryRepositoryImpl extends Querydsl4RepositorySupport implement
                 .fetchOne());
     }
 
+
 }

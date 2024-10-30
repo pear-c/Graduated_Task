@@ -37,5 +37,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "buyer")
     List<Item> buyItem = new ArrayList<>();
 
-
+    public User(String id, String password, String name) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+    }
 }

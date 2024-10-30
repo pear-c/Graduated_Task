@@ -27,7 +27,8 @@ public class ItemRepositoryImpl extends Querydsl4RepositorySupport implements It
     }
 
     public List<Item> findCategoryWithItem(Long categoryNo,final int startPage, final int PageSize) {
-        return select(item).from(category).where(category.No.eq(categoryNo)).join(category.item,item).where(item.type.eq(Item.State.sale)).orderBy(item.createdDate.desc()).fetchJoin().offset(startPage)
+        System.out.println(startPage);
+        return select(item).from(item).where(item.category.No.eq(categoryNo)).where(item.type.eq(Item.State.sale)).orderBy(item.createdDate.desc()).offset(startPage)
                 .limit(PageSize).fetch();
     }
     public Optional<Item> findItemWithCategory(Long itemId){
