@@ -22,10 +22,10 @@ class user_Test {
 
 	@Test
 	void login() throws Exception {
-		User user = new User("1","1","1");
+		User user = new User("3","1","1");
 		userRepository.save(user);
 		em.clear();
-		String login = userService.login("1", "1");
+		String login = userService.login("3", "1");
 	}
 	@Test
 	void logout() throws Exception {
