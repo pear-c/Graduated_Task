@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@CrossOrigin(originPatterns = "http://localhost:3000")
 @RequiredArgsConstructor
 public class itemController {
     private final ItemService itemService;
