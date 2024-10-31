@@ -38,7 +38,7 @@ public class ItemService {
         itemRepository.save(item);
         if (category.getItemCount()%20 ==0 ){
             String category_no = String.valueOf(category.getNo());
-            Future<ProcessResult> python3 = new ProcessExecutor().command("python3", "path/to/Random_Forest_Model.py",category_no)
+            Future<ProcessResult> python3 = new ProcessExecutor().command("python3", "/home/ubuntu/Random_Forest_Model.py",category_no)
                     .redirectOutput(System.out)
                     .redirectError(System.out).start().getFuture();
         }
